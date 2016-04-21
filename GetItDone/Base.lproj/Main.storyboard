@@ -108,6 +108,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
+                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </label>
                             <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="U5L-Xz-Ypg">
                                 <rect key="frame" x="0.0" y="116" width="600" height="62"/>
@@ -136,6 +137,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
+                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="DYR-qi-M3j">
                                 <rect key="frame" x="20" y="477" width="560" height="103"/>
@@ -156,6 +158,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
+                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </label>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="NmP-a4-Jta">
                                 <rect key="frame" x="20" y="220" width="560" height="29"/>
@@ -169,21 +172,32 @@
                                     <segment title="4"/>
                                     <segment title="5"/>
                                 </segments>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </segmentedControl>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4vj-1j-i5g">
                                 <rect key="frame" x="531" y="273" width="51" height="31"/>
+                                <connections>
+                                    <action selector="setCompleteSwitch:" destination="178-aw-zyV" eventType="touchUpInside" id="VtJ-gO-kmc"/>
+                                </connections>
                             </switch>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Completion Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L7e-NQ-C4b">
-                                <rect key="frame" x="20" y="269" width="503" height="40"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Item Completed? Y/N" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MwM-aS-Ukd">
+                                <rect key="frame" x="341" y="273" width="163" height="31"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Completion Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L7e-NQ-C4b">
+                                <rect key="frame" x="20" y="269" width="164" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="Iax-zB-U8q"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
+                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.96989634709999994" green="0.4863838298" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="4vj-1j-i5g" firstAttribute="top" secondItem="NmP-a4-Jta" secondAttribute="bottom" constant="25" id="0MS-Jr-oZ6"/>
                             <constraint firstItem="NmP-a4-Jta" firstAttribute="top" secondItem="neH-ts-XJF" secondAttribute="bottom" constant="13" id="5fh-PJ-1eY"/>
@@ -192,18 +206,19 @@
                             <constraint firstItem="MYc-DK-m7A" firstAttribute="top" secondItem="4vj-1j-i5g" secondAttribute="bottom" constant="13" id="Ar2-5N-bw1"/>
                             <constraint firstItem="IFA-g2-6tV" firstAttribute="leading" secondItem="KOp-ZS-Jsv" secondAttribute="leadingMargin" id="B30-Qg-GGk"/>
                             <constraint firstItem="MYc-DK-m7A" firstAttribute="leading" secondItem="KOp-ZS-Jsv" secondAttribute="leadingMargin" constant="-20" id="BC6-eh-2Td"/>
+                            <constraint firstItem="4vj-1j-i5g" firstAttribute="leading" secondItem="MwM-aS-Ukd" secondAttribute="trailing" constant="27" id="Cpa-ON-YbX"/>
                             <constraint firstItem="IFA-g2-6tV" firstAttribute="top" secondItem="c1q-LA-IUs" secondAttribute="bottom" constant="8" id="FUK-eh-Eu7"/>
                             <constraint firstAttribute="leadingMargin" secondItem="DYR-qi-M3j" secondAttribute="leading" id="NwX-Fp-S4B"/>
                             <constraint firstItem="L7e-NQ-C4b" firstAttribute="top" secondItem="NmP-a4-Jta" secondAttribute="bottom" constant="21" id="RVt-eK-kBg"/>
                             <constraint firstAttribute="trailingMargin" secondItem="MYc-DK-m7A" secondAttribute="trailing" constant="-20" id="Rch-hh-j8a"/>
                             <constraint firstAttribute="leadingMargin" secondItem="neH-ts-XJF" secondAttribute="leading" id="ReT-NN-eta"/>
-                            <constraint firstItem="4vj-1j-i5g" firstAttribute="leading" secondItem="L7e-NQ-C4b" secondAttribute="trailing" constant="8" id="X9X-oA-Qdb"/>
                             <constraint firstAttribute="leadingMargin" secondItem="NmP-a4-Jta" secondAttribute="leading" id="XY8-tm-nP4"/>
                             <constraint firstAttribute="trailingMargin" secondItem="NmP-a4-Jta" secondAttribute="trailing" id="Zqp-e8-RVf"/>
                             <constraint firstItem="U5L-Xz-Ypg" firstAttribute="top" secondItem="IFA-g2-6tV" secondAttribute="bottom" constant="14" id="aNc-Qq-ifq"/>
                             <constraint firstAttribute="trailingMargin" secondItem="IFA-g2-6tV" secondAttribute="trailing" id="bq2-u3-823"/>
                             <constraint firstItem="MYc-DK-m7A" firstAttribute="top" secondItem="L7e-NQ-C4b" secondAttribute="bottom" constant="8" id="c0E-bj-kfs"/>
                             <constraint firstAttribute="trailingMargin" secondItem="4vj-1j-i5g" secondAttribute="trailing" id="cxd-9h-qCh"/>
+                            <constraint firstItem="MwM-aS-Ukd" firstAttribute="top" secondItem="NmP-a4-Jta" secondAttribute="bottom" constant="25" id="fCE-wL-cL5"/>
                             <constraint firstItem="neH-ts-XJF" firstAttribute="top" secondItem="U5L-Xz-Ypg" secondAttribute="bottom" constant="8" id="lFZ-u5-rFx"/>
                             <constraint firstItem="Bgs-at-LKa" firstAttribute="top" secondItem="MYc-DK-m7A" secondAttribute="bottom" constant="19" id="nKk-iF-EvX"/>
                             <constraint firstAttribute="trailingMargin" secondItem="neH-ts-XJF" secondAttribute="trailing" id="qyQ-u4-B4U"/>

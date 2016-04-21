@@ -11,23 +11,16 @@
 
 @interface DetailViewController ()
 
-
+@property(nonatomic,weak) IBOutlet  UILabel                 *todoItemLabel;
 @property(nonatomic, strong)        NSManagedObjectContext  *managedObjectContext;
 @property(nonatomic, strong)        AppDelegate             *appDelegate;
 @property(nonatomic, weak) IBOutlet UIDatePicker            *dueDatePicker;
 @property(nonatomic, weak) IBOutlet UIDatePicker            *completeDatePicker;
 @property(nonatomic, weak) IBOutlet UITextView              *descripTextView;
 @property(nonatomic, weak) IBOutlet UISegmentedControl      *prioritySegControl;
+@property(nonatomic, weak) IBOutlet UISwitch                *completeSwitch;
 
 
-
-//#pragma mark - Date Picker methods
-//
-//-(IBAction)datePickerChanged:(UIDatePicker *)picker {
-//    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-//    [formatter setDateFormat:@"M/dd/yy"];
-//    NSLog(@"Date: %@", [formatter stringFromDate: picker.date]);
-//}
 
 
 @end
@@ -38,51 +31,71 @@
 #pragma mark- Interactivity Methods
 
 
--(void)saveAndPop {
-    [_appDelegate saveContext];
-    [self.navigationController popViewControllerAnimated:true];
+    -(void)saveAndPop {
+        [_appDelegate saveContext];
+        [self.navigationController popViewControllerAnimated:true];
     
 }
 
--(IBAction)saveButtonPressed:(id)sender {
-    NSLog(@"Save");
-    _currentItem.todoDueDate = _dueDatePicker.date;
-    _currentItem.todoCompletionDate= _completeDatePicker.date;
-    _currentItem.todoDescription = _descripTextView.text;
-    _currentItem.todoPriority = [NSNumber numberWithInteger:_prioritySegControl.selectedSegmentIndex];
-    [self saveAndPop];
+    -(IBAction)saveButtonPressed:(id)sender {
+        NSLog(@"Save");
+        _currentItem.todoDueDate = _dueDatePicker.date;
+        _currentItem.todoCompletionDate= _completeDatePicker.date;
+        _currentItem.todoDescription = _descripTextView.text;
+        _currentItem.todoPriority = [NSNumber numberWithInteger:_prioritySegControl.selectedSegmentIndex];
+        [self saveAndPop];
 }
 
--(IBAction)deleteButtonPressed:(id)sender {
-    NSLog(@"Delete");
+    -(IBAction)deleteButtonPressed:(id)sender {
+        NSLog(@"Delete");
 
     
+        [_managedObjectContext deleteObject:_currentItem];
+        [self saveAndPop];
+    }
     
-    
-    [_managedObjectContext deleteObject:_currentItem];
-    [self saveAndPop];
-
-
+    -(IBAction)setCompleteSwitch:(UISwitch *)completeSwitch {
+        NSString *compSwitch = @"";
+        if (_completeSwitch.isOn) {
+        compSwitch = @"Yes";
+        } else{
+        compSwitch = @"No";
 }
+//    
+//        -NSLog(@"%@ for %@ Due Date: %ld, Priority: %ld, Completed: %@, Completion Date: %@, Description: %@",_todoItemLabel.text, _dueDatePicker.date, (long)_prioritySegControl.selectedSegmentIndex, _completeSwitch.isOn, _completeDatePicker, _descripTextView.text, [_prioritySegControl titleForSegmentAtIndex:_prioritySegControl.selectedSegmentIndex]);
+//    }
+}
+
+//
+//    - (IBAction)setSubmitButton:(UIButton *)submitButton {
+//        NSString *recString = @"";
+//        if (_recomSwitch.isOn) {
+//            recString = @"Yes";
+//        } else {
+//            recString = @"No";
+//        }
+//        NSLog(@"%@ Results by %@ review: %@, Food Rating: %@, Service: %i, Overall: %i, Recommended: %@",_restLabel.text, _nameTextField.text, _reviewTextView.text, [_foodSegControl titleForSegmentAtIndex:_foodSegControl.selectedSegmentIndex], (int)_foodStepper.value, (int)_overallSlider.value, recString);
+
+
 
 #pragma mark- Life Cycle Methods
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    _appDelegate = [[UIApplication sharedApplication]delegate];
-    _managedObjectContext = _appDelegate.managedObjectContext;
+    - (void)viewDidLoad {
+        [super viewDidLoad];
+        _appDelegate = [[UIApplication sharedApplication]delegate];
+        _managedObjectContext = _appDelegate.managedObjectContext;
     
 }
 
--(void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    if (_currentItem == nil) {
-        ToDoItem *newToDoItem = (ToDoItem *)[NSEntityDescription insertNewObjectForEntityForName:@"Item" inManagedObjectContext:_managedObjectContext ];
+    -(void)viewWillAppear:(BOOL)animated {
+        [super viewWillAppear:animated];
+        if (_currentItem == nil) {
+        ToDoItem *newToDoItem = (ToDoItem *)[NSEntityDescription insertNewObjectForEntityForName:@"ToDoItem" inManagedObjectContext:_managedObjectContext ];
         _currentItem = newToDoItem;
         _dueDatePicker.date = [NSDate date];
         _prioritySegControl.selectedSegmentIndex = 0;
         _descripTextView.text = @"";
-    } else {
+        } else {
         _dueDatePicker.date = _currentItem.todoDueDate;
         _prioritySegControl.selectedSegmentIndex = [_currentItem.todoPriority integerValue];
         _descripTextView.text = _currentItem.todoDescription;
@@ -90,16 +103,16 @@
     
 }
     
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    if ([_managedObjectContext hasChanges]) {
+    - (void)viewWillDisappear:(BOOL)animated {
+        [super viewWillDisappear:animated];
+        if ([_managedObjectContext hasChanges]) {
         [_managedObjectContext rollback];
     }
     
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
+    - (void)didReceiveMemoryWarning {
+        [super didReceiveMemoryWarning];
 }
 
 

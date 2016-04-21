@@ -40,54 +40,57 @@
     itemCell.textLabel.text = [currentItem todoDescription];
     itemCell.detailTextLabel.text = [NSString stringWithFormat:@"%@", currentItem.todoPriority];
     return itemCell;
-
+    
 }
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     DetailViewController *destController = [segue destinationViewController];
     if ([[segue identifier] isEqualToString:@"editToDoSegue"]) {
-    NSIndexPath *indexPath = [_itemTableView indexPathForSelectedRow];
-    ToDoItem *selectedItem = _toDoItemArray [indexPath.row];
-    destController.currentItem = selectedItem;
+        NSIndexPath *indexPath = [_itemTableView indexPathForSelectedRow];
+        ToDoItem *selectedItem = _toDoItemArray [indexPath.row];
+        destController.currentItem = selectedItem;
     } else if ([[segue identifier] isEqualToString:@"addToDoSegue"]) {
         destController.currentItem = nil;
         
-
+        
+    }
+    
 }
-    
-    
-    
+
+
 //    //BLOCK AREA (JUST FYI)
-//    - (NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-//        UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"Delete" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
-//            NSLog(@"Delete");
-//            Person *personToDelete = _personsArray[indexPath.row];
-//            [_manageObjectContext deleteObject:personToDelete];
-//            [_appDelegate saveContext];
-//            [self refreshDataAndTAble];
-//        }];
-//        return @[deleteAction];
-//        
-//    }
-//    
-//    -(void)refreshDataAndTAble {
-//        _personsArray = [self fetchPersons];
-//        [_personTableView reloadData];
-//    }
 
+
+- (NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"Delete" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+        NSLog(@"Delete");
+        ToDoItem *todoToDelete = _toDoItemArray[indexPath.row];
+        [_managedObjectContext deleteObject:todoToDelete];
+        [_appDelegate saveContext];
+        [self refreshDataAndTable];
+    }];
+    return @[deleteAction];
+    
 }
+
+-(void)refreshDataAndTable {
+    _toDoItemArray = [self fetchItems];
+    [_itemTableView reloadData];
+}
+
+
 #pragma - Core Data Methods
 
-    -(void)tempAddRecords {
+-(void)tempAddRecords {
     
-//    //Add One Item
+    //    //Add One Item
     ToDoItem *newItem =(ToDoItem *)[NSEntityDescription insertNewObjectForEntityForName:@"ToDoItem" inManagedObjectContext:_managedObjectContext];
     
     [newItem setTodoDescription:@"Do the Laundry"];
     [newItem setTodoPriority:[NSNumber numberWithInteger:2]];
     [newItem setTodoDueDate:[NSDate date]];
     [newItem setTodoCompletionDate:[NSDate date]];
-
+    
     //Add 2nd Item
     ToDoItem *newItem2 =(ToDoItem *)[NSEntityDescription insertNewObjectForEntityForName:@"ToDoItem" inManagedObjectContext:_managedObjectContext];
     
@@ -99,7 +102,7 @@
     
     
 }
-   //Fetch Items
+//Fetch Items
 
 -(NSArray *)fetchItems {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -108,7 +111,7 @@
     NSError *error;
     NSArray *fetchResults = [_managedObjectContext executeFetchRequest:fetchRequest error:&error];
     return fetchResults;
-
+    
 }
 
 
@@ -118,10 +121,14 @@
     [super viewDidLoad];
     _appDelegate = [[UIApplication sharedApplication] delegate];
     _managedObjectContext = _appDelegate.managedObjectContext;
-    [self tempAddRecords]; 
-    _toDoItemArray =[self fetchItems];
-    NSLog(@"Count: %li",_toDoItemArray.count);
+//    [self tempAddRecords];
+    
+}
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self refreshDataAndTable];
+    NSLog(@"Count: %li",_toDoItemArray.count);
 }
 
 - (void)didReceiveMemoryWarning {
@@ -129,6 +136,6 @@
 }
 
 
-    @end
+@end
 
 
